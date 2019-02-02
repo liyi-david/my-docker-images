@@ -1,0 +1,15 @@
+#ifndef _MONO_IN_
+#define _MONO_IN_
+ 
+# RUN apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --keyserver-options http-proxy=${http_proxy} --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+# anyway the certificate does not work since we are in the company ...
+ 
+RUN echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | tee /etc/apt/sources.list.d/mono-official-stable.list
+# patch apt.conf
+RUN echo "Acquire::https::Verify-Peer false;" >> /etc/apt/apt.conf.d/no-cert-check.conf
+RUN echo "Acquire::https::Verify-Host false;" >> /etc/apt/apt.conf.d/no-cert-check.conf
+RUN echo "Acquire::AllowInsecureRepositories true;" >> /etc/apt/apt.conf.d/no-cert-check.conf
+ 
+RUN apt update && apt install mono-devel -y --allow-unauthenticated
+
+#endif
