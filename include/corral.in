@@ -1,0 +1,13 @@
+#ifndef _CORRAL_IN_
+#define _CORRAL_IN_
+ 
+#include "boogie.in"
+ 
+#define CORRAL_PREFIX /opt/corral
+ 
+RUN wget https://github.com/boogie-org/corral/archive/master.zip -O CORRAL_PREFIX.zip && unzip CORRAL_PREFIX.zip -d /opt && mv /opt/corral-master CORRAL_PREFIX && rm CORRAL_PREFIX.zip
+RUN rm -rf CORRAL_PREFIX/boogie && ln -fs BOOGIE_PREFIX CORRAL_PREFIX/boogie
+RUN cd CORRAL_PREFIX && xbuild /p:TargetFrameworkVersion=v4.5 /p:Configuration=Debug cba.sln
+RUN apt update && apt install z3 -y && ln -s /usr/bin/z3 CORRAL_PREFIX/bin/Debug/z3.exe
+
+#endif
