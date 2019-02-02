@@ -1,0 +1,20 @@
+#ifndef _LLVM_BUILD_IN_
+#define _LLVM_BUILD_IN_
+ 
+#ifndef LLVM_INSTALL_PREFIX
+#error "you need to specify where to install LLVM and its corresponding tools by LLVM_INSTALL_PREFIX"
+#endif
+ 
+#ifndef LLVM_SOURCE_PREFIX
+#error "you need to download llvm source code first through including llvm.download.in"
+#endif
+ 
+#define LLVM_BUILD_PREFIX LLVM_SOURCE_PREFIX/build
+RUN echo "Acquire::http::Pipeline-Dept 0;" >> /etc/apt/apt.conf.d/fixbadproxy
+RUN echo "Acquire::http::No-Cache true;" >> /etc/apt/apt.conf.d/fixbadpoxy
+RUN echo "Acquire::BrokenProxy true;" >> /etc/apt/apt.conf.d/fixbadproxy
+RUN apt update
+RUN apt install -y build-essential cmake python
+RUN mkdir LLVM_BUILD_PREFIX && cd LLVM_BUILD_PREFIX && cmake LLVM_SOURCE_PREFIX -DCMAKE_INSTALL_PREFIX=LLVM_INSTALL_PREFIX -DCMAKE_BUILD_TYPE=Release -DLLVM_TARGETS_TO_BUILD=host && make && make install
+
+#endif
