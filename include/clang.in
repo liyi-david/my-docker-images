@@ -1,0 +1,17 @@
+#ifndef _CLANG_DOWNLOAD_IN_
+#define _CLANG_DOWNLOAD_IN_
+ 
+#ifndef CLANG_VERSION
+#error clang version must be specified before
+#endif
+ 
+#ifndef LLVM_SOURCE_PREFIX
+#error "llvm is not downloaded before, hence no LLVM_PREFIX is located
+#endif
+ 
+RUN wget https://github.com/llvm-mirror/clang/archive/release_CLANG_VERSION.zip -O LLVM_SOURCE_PREFIX/tools/clang.zip
+RUN unzip LLVM_SOURCE_PREFIX/tools/clang.zip -d LLVM_SOURCE_PREFIX/tools
+RUN rm LLVM_SOURCE_PREFIX/tools/clang.zip
+RUN mv LLVM_SOURCE_PREFIX/tools/clang-release_CLANG_VERSION LLVM_SOURCE_PREFIX/tools/clang
+
+#endif
