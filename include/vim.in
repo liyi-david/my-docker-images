@@ -1,0 +1,9 @@
+#ifndef _VIM_IN_
+#define _VIM_IN_
+ 
+RUN apt update && apt install -y vim
+#include "git.in"
+RUN github_clone(amix, vimrc, /root/.vim_runtime)
+RUN sh /root/.vim_runtime/install_awesome_vimrc.sh
+
+#endif
