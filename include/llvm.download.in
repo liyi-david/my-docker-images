@@ -1,0 +1,13 @@
+#ifndef _LLVM_DOWNLOAD_IN_
+#define _LLVM_DOWNLOAD_IN_
+ 
+#ifndef LLVM_VERSION
+#error llvm version must be specified before
+#endif
+ 
+RUN wget https://github.com/llvm-mirror/llvm/archive/release_LLVM_VERSION.zip -O /opt/llvm.zip
+RUN unzip /opt/llvm.zip -d /opt
+RUN rm /opt/llvm.zip
+#define LLVM_SOURCE_PREFIX /opt/llvm-release_LLVM_VERSION
+ 
+#endif
