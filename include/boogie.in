@@ -1,0 +1,16 @@
+#ifndef _BOOGIE_IN_
+#define _BOOGIE_IN_
+ 
+#define BOOGIE_PREFIX /opt/boogie
+ 
+RUN wget https://github.com/boogie-org/boogie/archive/master.zip -O BOOGIE_PREFIX.zip
+RUN unzip BOOGIE_PREFIX.zip -d /opt
+RUN mv /opt/boogie-master BOOGIE_PREFIX
+# install certificates
+RUN wget https://hg.mozilla.org/releases/mozilla-release/raw-file/default/security/nss/lib/ckfw/builtins/certdata.txt -O BOOGIE_PREFIX/certdata.txt
+RUN mozroots --import --sync --file BOOGIE_PREFIX/certdata.txt
+RUN cd BOOGIE_PREFIX && wget https://nuget.org/nuget.exe && xbuild Source/Boogie.sln
+RUN apt install z3 && ln -s /usr/bin/z3 BOOGIE_PREFIX/Binaries/z3.exe
+RUN rm BOOGIE_PREFIX.zip
+
+#endif
